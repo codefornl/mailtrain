@@ -29,7 +29,7 @@ if [ ! -f "/app/config/$NODE_ENV.toml" ] ; then
     cp /app/config/docker-production.toml.tmpl /app/config/$NODE_ENV.toml
 fi
 if [ ! -f "/app/workers/reports/config/$NODE_ENV.toml" ] ; then 
-    echo "No $NODE_ENv.toml for reports"
+    echo "No $NODE_ENV.toml for reports"
     if [ -f "/app/config/$NODE_ENV.toml" ] ; then 
         echo "copying config/$NODE_ENV.toml to reports config directory"
         cp /app/config/$NODE_ENV.toml /app/workers/reports/config/$NODE_ENV.toml
