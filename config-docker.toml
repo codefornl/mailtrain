@@ -2,7 +2,7 @@
 title="__MT_TITLE__"
 
 # Default language to use
-language="__MT_LANGUAGE"
+language="__MT_LANGUAGE__"
 
 [log]
 # silly|verbose|info|http|warn|error|silent
@@ -10,7 +10,7 @@ level="__MT_LOG_LEVEL__"
 
 [www]
 port=__MT_PORT__
-host="__MT_HOST__"
+host="__MT_HOST_INTERFACE__"
 secret="__MT_SECRET__"
 log="__MT_LOGGER__"
 proxy=__MT_USE_PROXY__
