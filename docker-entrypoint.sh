@@ -3,9 +3,6 @@ set -e
 
 cp /app/config-docker.toml /app/config/$NODE_ENV.toml
 
-ENV USE_REDIS true
-ENV REDIS_HOST localhost
-ENV REDIS_PORT 6379
 sed -i "s^__MT_TITLE__^$MT_TITLE^g" /app/config/$NODE_ENV.toml
 sed -i "s^__MT_LANGUAGE__^$MT_LANGUAGE^g" /app/config/$NODE_ENV.toml
 sed -i "s^__MT_LOG_LEVEL__^$MT_LOG_LEVEL^g" /app/config/$NODE_ENV.toml
