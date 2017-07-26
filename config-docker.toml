@@ -10,7 +10,7 @@ level="__MT_LOG_LEVEL__"
 
 [www]
 port=__MT_PORT__
-host="__MT_INTERFACE__"
+host="__MT_HOST__"
 secret="__MT_SECRET__"
 log="__MT_LOGGER__"
 proxy=__MT_USE_PROXY__
