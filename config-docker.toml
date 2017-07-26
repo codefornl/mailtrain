@@ -1,0 +1,29 @@
+# Process title visible in monitoring logs and process listing
+title="__MT_TITLE__"
+
+# Default language to use
+language="__MT_LANGUAGE"
+
+[log]
+# silly|verbose|info|http|warn|error|silent
+level="__MT_LOG_LEVEL__"
+
+[www]
+port=__MT_PORT__
+host="__MT_INTERFACE__"
+secret="__MT_SECRET__"
+log="__MT_LOGGER__"
+proxy=__MT_USE_PROXY__
+postsize="__MT_MAX_POST__"
+
+[mysql]
+host="__MYSQL_HOST__"
+user="__MYSQL_USER__"
+password="__MYSQL_PASSWORD__"
+database="__MYSQL_DB__"
+port=__MYSQL_PORT__
+
+[redis]
+enabled=__USE_REDIS__
+host="__REDIS_HOST__"
+port=__REDIS_PORT__
