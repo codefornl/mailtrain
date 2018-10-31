@@ -61,6 +61,16 @@ level="verbose"
 port=3000
 # HTTP interface to listen on
 host="0.0.0.0"
+# Enable HTTPS
+https=false
+# HTTPS certificate file name
+cert="cert.pem"
+# HTTPS certificate private key file name
+key="key.pem"
+# HTTPS ca certificate file name
+#ca="ca-certificate.pem"
+# HTTPS Diffie Hellman parameters (generate with openssl dhparam)
+#dhparams="dhparams.pem"
 # Secret for signing the session ID cookie
 secret="a cat"
 # Session length in seconds when "remember me" is checked
@@ -85,6 +95,7 @@ database="mailtrain"
 # MAMP users should also turn on "Allow network access to MySQL" otherwise MySQL might not be accessible
 port=3306
 charset="utf8mb4"
+# The timezone configured on the MySQL server. This can be 'local', 'Z', or an offset in the form +HH:MM or -HH:MM
 timezone="local"
 
 [redis]
@@ -113,13 +124,32 @@ host="0.0.0.0"
 [ldap]
 # enable to use ldap user backend
 enabled=false
-host="localhost"
-port=3002
+url="ldap://localhost:3002"
 baseDN="ou=users,dc=company"
 filter="(|(username={{username}})(mail={{username}}))"
 #Username field in LDAP (uid/cn/username)
 uidTag="username"
 passwordresetlink=""
+# Use a different user to bind LDAP (final bind DN will be: {{uidTag}}={{bindUser}},{{baseDN}})
+bindUser=""
+bindPassword=""
+#ca="self-signed-ca.pem"
+
+[ldapauth]
+# Alternative LDAP implementation using the more popular passport-ldapauth library.
+enabled=false
+url="ldap://localhost:389"
+# Subtree in which the searchrequest for the user is done
+baseDN="ou=users,dc=company"
+# What whe are searching for. This should return a single user.
+filter="(|(sAMAccountName={{username}})(mail={{username}}))"
+# Username field in LDAP, used to identify the user in Mailtrain (uid/cn/username/sAMAccountName)
+uidTag="sAMAccountName"
+passwordresetlink=""
+# Credentials for the initial search operation (final bind DN will be exactly as specified)
+bindUser="name@company.net"
+bindPassword="mySecretPassword"
+#ca="self-signed-ca.pem"
 
 [postfixbounce]
 # Enable to allow writing Postfix bounce log to Mailtrain listener

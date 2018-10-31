@@ -20,7 +20,7 @@ function feedLoop() {
             return setTimeout(feedLoop, feed_timeout);
         }
 
-        let query = 'SELECT `id`, `source_url`, `from`, `address`, `subject`, `list`, `segment`, `html` FROM `campaigns` WHERE `type`=2 AND `status`=6 AND (`last_check` IS NULL OR `last_check`< NOW() - INTERVAL 10 MINUTE) LIMIT 1';
+        let query = 'SELECT `id`, `source_url`, `from`, `address`, `subject`, `list`, `segment`, `html`, `open_tracking_disabled`, `click_tracking_disabled` FROM `campaigns` WHERE `type`=2 AND `status`=6 AND (`last_check` IS NULL OR `last_check`< NOW() - INTERVAL 10 MINUTE) LIMIT 1';
 
         connection.query(query, (err, rows) => {
             connection.release();
@@ -135,7 +135,7 @@ function checkEntries(parent, entries, callback) {
                 if (/\[RSS_ENTRY[\w]*\]/i.test(html)) {
                     html = html.replace(/\[RSS_ENTRY\]/, entry.content); //for backward compatibility
                     Object.keys(entry).forEach(key => {
-                        html = html.replace('[RSS_ENTRY_' + key.toUpperCase() + ']', entry[key]);
+                        html = html.replace(new RegExp('\\[RSS_ENTRY_' + key.toUpperCase() + '\\]', 'g'), entry[key]);
                     });
                 } else {
                     html = entry.content + html;
@@ -148,7 +148,9 @@ function checkEntries(parent, entries, callback) {
                     address: parent.address,
                     subject: entry.title || parent.subject,
                     list: parent.segment ? parent.list + ':' + parent.segment : parent.list,
-                    html
+                    html,
+                    openTrackingDisabled: parent.openTrackingDisabled,
+                    clickTrackingDisabled: parent.clickTrackingDisabled
                 };
 
                 campaigns.create(campaign, {

@@ -315,6 +315,86 @@ router.post('/delete/:listId', (req, res) => {
     });
 });
 
+router.get('/subscriptions/:listId', (req, res) => {
+    let start = parseInt(req.query.start || 0, 10);
+    let limit = parseInt(req.query.limit || 10000, 10);
+
+    lists.getByCid(req.params.listId, (err, list) => {
+	if (err) {
+            res.status(500);
+            return res.json({
+		error: err.message || err,
+		data: []
+            });
+	}
+	subscriptions.list(list.id, start, limit, (err, rows, total) => {
+	    if (err) {
+		res.status(500);
+		return res.json({
+		    error: err.message || err,
+		    data: []
+		});
+	    }
+	    res.status(200);
+	    res.json({
+		data: {
+		    total: total,
+		    start: start,
+		    limit: limit,
+		    subscriptions: rows
+		}
+	    });
+	});
+    });
+});
+
+router.get('/lists', (req, res) => {
+    lists.quicklist((err, lists) => {
+        if (err) {
+            res.status(500);
+            return res.json({
+                error: err.message || err,
+                data: []
+            });
+        }
+        res.status(200);
+        res.json({
+            data: lists
+        });
+    });
+});
+
+router.get('/list/:id', (req, res) => {
+    lists.get(req.params.id, (err, list) => {
+        if (err) {
+            res.status(500);
+            return res.json({
+                error: err.message || err,
+            });
+        }
+        res.status(200);
+        res.json({
+            data: list
+        });
+    });
+});
+
+router.get('/lists/:email', (req, res) => {
+    lists.getListsWithEmail(req.params.email, (err, lists) => {
+        if (err) {
+            res.status(500);
+		    return res.json({
+		        error: err.message || err,
+		        data: []
+		    });
+        }
+        res.status(200);
+        res.json({
+            data: lists
+        });
+    });
+});
+
 router.post('/field/:listId', (req, res) => {
     let input = {};
     Object.keys(req.body).forEach(key => {
